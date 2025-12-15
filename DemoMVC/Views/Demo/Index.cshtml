@@ -1,0 +1,470 @@
+﻿@model List<DemoMVC.Models.DemoModel>
+@{
+    ViewBag.Title = "Demo";
+    Layout = null;
+}
+<h3 class="text-center mt-0">*******************Demo Data*******************</h3>
+@if (ViewBag.Mess != null)
+{
+    <div class="text-center text-bg-success fw-bold">@ViewBag.Mess</div>
+}
+@if (ViewBag.Error != null)
+{
+    <div class="text-center text-bg-danger fw-bold">@ViewBag.Error</div>
+}
+
+<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+
+
+
+
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<div class="container-fluid">
+    <form id="form" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="TxtId" name="Id" />
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Name</label>
+                <input type="text" id="TxtName" name="name" class="form-control" placeholder="Enter The Name..." />
+            </div>
+            <div class="col-sm-6">
+                <label>Email</label>
+                <input type="text" id="TxtEmail" name="email" class="form-control" placeholder="Enter The Email..." />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Phone</label>
+                <input type="text" id="TxtPhone" name="phone" class="form-control" placeholder="Enter The Phone..." />
+            </div>
+            <div class="col-sm-6">
+                <label>D/O/B</label>
+                <input type="date" id="TxtDob" name="dob" class="form-control" placeholder="Enter The Dob..." />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Gender</label><br />
+
+                <input type="radio" id="ddlgender" name="ddlgender" value="Male" />
+                <label for="genderMale">Male</label>
+
+                <input type="radio" id="ddlgender" name="ddlgender" value="FeMale" />
+                <label for="genderFemale">FeMale</label>
+
+            </div>
+            <div class="col-sm-6">
+                <label for="ddlteacher">Teacher</label>
+                <select id="ddlteacher" name="teacher" class="form-control">
+                    <option value="">-- Select Teacher --</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="ddlclass">Class</label>
+                <select id="ddlclass" name="Class" class="form-control">
+                    <option value="">-- Select Class --</option>
+                </select>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="ddlsubject">Subject</label>
+                <select id="ddlsubject" name="Subject" class="form-control">
+                    <option value="">-- Select Subject --</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="image">Image</label>
+                <input type="file" id="TxtImage" name="imagefile" class="form-control" />
+                <input type="hidden" id="OldImage" name="OldImage" />
+                <img id="PreviewImage" src="" width="80" height="80" />
+
+            </div>
+
+            <div class="col-sm-6">
+                <label>UserId</label>
+                <input type="text" id="TxtUserid" name="Userid" class="form-control" value="@ViewBag.TxtUserid" placeholder="Enter The UserId..." />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="password">Password</label>
+                <input type="password" id="TxtPass" name="Password" class="form-control" placeholder="Enter The Password...." />
+            </div>
+
+            <div class="col-sm-6">
+                <label>Address</label>
+                <input type="text" id="TxtAddress" name="Address" class="form-control" placeholder="Enter The Address..." />
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnAdd">Add</button>
+        <button type="button" class="btn btn-success" id="btnUpdate">Update</button>
+    </form>
+</div>
+<table id="Demodata" class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>D/O/B</th>
+            <th>Gender</th>
+            <th>Teacher</th>
+            <th>Class</th>
+            <th>Subject</th>
+            <th>UserId</th>
+            <th>Password</th>
+            <th>Image</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table id="Teacherdata" class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>D/O/B</th>
+                                <th>Gender</th>
+                                <th>Teacher</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th>UserId</th>
+                                <th>Password</th>
+                                <th>Image</th>
+                                <th>Address</th>
+
+
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    <td>@list.id</td>
+                                    <td>@list.name</td>
+                                    <td>@list.email</td>
+                                    <td>@list.phone</td>
+                                    <td>@list.dob</td>
+                                    <td>@list.ddlgender</td>
+                                    <td>@list.teacher</td>
+                                    <td>@list.Class</td>
+                                    <td>@list.subject</td>
+                                    <td>@list.userid</td>
+                                    <td>@list.password</td>
+                                    <td> <img src="@Url.Content(@list.image)" alt="User Image" width="50" height="50" /></td>
+
+                                    <td>@list.address</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="DeleteDemo('@list.id')">Delete</button>
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="EditDemo('@list.id', '@list.name', '@list.email', '@list.phone', '@list.dob',
+                                  '@list.ddlgender', '@list.teacher', '@list.Class', '@list.subject','@list.userid','@list.password','@list.image','@list.address')">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Moment.js (required for date format) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        loadTeachers();
+        loadClass();
+        loadSubject();
+        $('#btnUpdate').click(function () {
+            debugger
+            UpdateDemo();
+            debugger
+        });
+        GetDemo();
+        debugger
+
+    });
+
+    function loadTeachers() {
+        $.ajax({
+            type: "GET",
+            url: "/Teacher/GetTeachers",
+            dataType: "json",
+            success: function (data) {
+                var ddl = $("#ddlteacher");
+                ddl.empty();
+                ddl.append('<option value="">-- Select Teacher --</option>');
+
+                $.each(data, function (i, v) {
+                    ddl.append('<option value="' + v.Id + '">' + v.Name + '</option>');
+                });
+            },
+            error: function () {
+                alert("Error loading teachers");
+            }
+        });
+    }
+
+    function loadClass() {
+        debugger
+        $.ajax({
+            type: "GET",
+            url: "/Teacher/GetClass",   // ✅ FIXED
+            dataType: "json",
+            success: function (data) {
+                var ddl = $("#ddlclass");
+                ddl.empty();
+                ddl.append('<option value="">-- Select Class --</option>');
+
+                $.each(data, function (i, v) {
+                    ddl.append('<option value="' + v.Id + '">' + v.Class + '</option>');
+                });
+            },
+            error: function () {
+                alert("Error loading class");
+            }
+        });
+    }
+
+    function loadSubject() {
+        $.ajax({
+            type: "GET",
+            url: "/Teacher/GetSubject",
+            dataType: "json",
+            success: function (data) {
+                var ddl = $("#ddlsubject");
+                ddl.empty();
+                ddl.append('<option value="">-- Select Subject --</option>');
+
+                $.each(data, function (i, v) {
+                    ddl.append('<option value="' + v.Id + '">' + v.Subject + '</option>');
+                });
+            },
+            error: function () {
+                alert("Error loading class");
+            }
+        });
+    }
+
+    function GetDemo() {
+        $.ajax({
+            type: "POST",
+            url: "/Demo/GetDemo",
+            dataType: "json",
+            success: function (response) {
+                let result = JSON.parse(response);
+                console.log(result);
+
+                $('#Demodata').DataTable({
+                    destroy: true,
+                    data: result,
+
+                    columns: [
+                        { data: 'id' },
+                        { data: 'name' },
+                        { data: 'email' },
+                        { data: 'phone' },
+
+                        {
+                            data: 'dob',
+                            render: function (data) {
+                                if (!data) return "";
+                                return moment(data).format("DD-MM-YYYY");
+                            }
+                        },
+
+                        { data: 'gender' },
+                        { data: 'teacher' },
+                        { data: 'class' },
+                        { data: 'subject' },
+                        { data: 'userid' },
+                        { data: 'password' },
+
+                        {
+                            data: 'image',
+                            render: function (data) {
+                                if (!data) return "";
+                                data = data.replace("~", "");
+                                return `<img src="${data}" width="50" height="50" />`;
+                            }
+                        },
+
+
+
+                        { data: 'address' },
+
+                        {
+                            data: null,
+                            render: function (row) {
+                                return `
+                                         <button class="btn btn-primary btn-sm" onclick="EditDemo('${row.id}', '${row.name}','${row.email}', '${row.phone}', '${row.dob}', '${row.gender}',
+                                           '${row.teacher}', '${row.class}', '${row.subject}', '${row.userid}', '${row.password}', '${row.image}', '${row.address}' )">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="DeleteDemo(${row.id})">
+                                          Delete
+                                       </button>
+                                  `;
+                            }
+
+                        }
+                    ],
+
+                    // THIS PREVENTS JQUERY ERRORS
+                    error: function (e) {
+                        console.log("DataTable ERROR:", e);
+                    }
+                });
+            },
+            error: function (err) {
+                debugger
+                console.log("AJAX ERROR:", err.responseText);
+            }
+        });
+    }
+
+
+
+
+    function DeleteDemo(id) {
+        debugger
+        if (confirm('You Want To Delete This Item?')) {
+            debugger
+            $.ajax({
+                type: "post",
+                url: "/Demo/DeleteDemo",
+                data: JSON.stringify({ id: id }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+
+                success: function (response) {
+                    if (response.result == "success") {
+                        alert('Demo Data Deleted SuccessFully');
+                        location.reload();
+                    }
+                    else {
+                        alert('Demo Data Not Deleted');
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                    console.log("Error:", error);
+                    alert('Error while deleting record!');
+                }
+            });
+        }
+    }
+
+    function EditDemo(id, name, email, phone, dob, gender, teacher, Class, subject, userid, password, image, address) {
+        debugger
+        $("#TxtId").val(id);
+        $("#TxtName").val(name);
+        $("#TxtEmail").val(email);
+        $("#TxtPhone").val(phone);
+        if (dob) {
+            // Convert "dd-MM-yyyy HH:mm:ss" to "yyyy-MM-dd"
+            var parts = dob.split(" ")[0].split("-"); // ["10","10","1998"]
+            var formattedDob = parts[2] + "-" + parts[1] + "-" + parts[0]; // "1998-10-10"
+            $("#TxtDob").val(formattedDob);
+        } else {
+            $("#TxtDob").val("");
+        }
+        $('input[name="ddlgender"][value="' + gender + '"]').prop("checked", true)
+
+        $("#ddlteacher").val(teacher);
+        $("#ddlclass").val(Class);
+        $("#ddlsubject").val(subject);
+        $("#TxtUserid").val(userid);
+        $("#TxtPass").val(password);
+        $("#TxtAddress").val(address);
+        if (image) {
+            var clean = image.replace("~", "");
+            $("#PreviewImage").attr("src", clean);
+            $("#OldImage").val(clean);
+        }
+    }
+
+    function UpdateDemo() {
+
+        var formData = new FormData();
+
+        formData.append("id", $("#TxtId").val());
+        formData.append("name", $("#TxtName").val());
+        formData.append("email", $("#TxtEmail").val());
+        formData.append("phone", $("#TxtPhone").val());
+        formData.append("dob", $("#TxtDob").val());
+        formData.append("ddlgender", $("input[name='ddlgender']:checked").val());
+        formData.append("teacher", $("#ddlteacher").val());
+        formData.append("Class", $("#ddlclass").val());
+        formData.append("subject", $("#ddlsubject").val());
+        formData.append("userid", $("#TxtUserid").val());
+        formData.append("password", $("#TxtPass").val());
+        formData.append("address", $("#TxtAddress").val());
+        formData.append("OldImage", $("#OldImage").val());
+
+        // IMAGE FILE
+        var file = $("#TxtImage")[0].files[0];
+        if (file) {
+            formData.append("imagefile", file); // KEY: imagefile
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Demo/UpdateDemo",
+            data: formData,
+            processData: false,   // REQUIRED
+            contentType: false,   // REQUIRED
+            success: function (response) {
+                if (response.result === "success") {
+                    alert("Data Updated Successfully!");
+                    location.reload();
+                } else {
+                    alert("Update Fail!");
+                }
+            },
+            error: function () {
+                alert("Error While Updating!");
+            }
+        });
+    }
+
+
+</script>
